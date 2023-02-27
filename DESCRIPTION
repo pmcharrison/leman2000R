@@ -1,0 +1,20 @@
+Package: leman2000
+Type: Package
+Title: Tonal Contextuality Model of Leman (2000)
+Version: 0.1.0
+Author: Peter M. C. Harrison
+Maintainer: Peter M. C. Harrison <pmch2@cam.ac.ukt>
+Description: This package allows you to run the tonal contextuality model of Leman (2000) on arbitrary audio files. Under the hood it uses a Dockerised version of the IPEM Toolbox.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    glue,
+    R.utils,
+    RcppSimdJson,
+    uuid
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
