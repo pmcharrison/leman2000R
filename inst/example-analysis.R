@@ -1,5 +1,6 @@
 # install.packages("remotes")
 # remotes::install_github("pmcharrison/leman2000R")
+# install.packages("tidyverse") # for plotting
 
 library(tidyverse)
 library(leman2000)
