@@ -5,17 +5,83 @@ get_full_file_path <- function(file) {
   file_full_path
 }
 
+
+#' Leman's (2000) Tonal Contextuality Model
+#'
+#' This model was published in a 2000 Music Perception paper, and was shown
+#' to provide a psychoacoustic account of the Krumhansl-Kessler probe-tone data.
+#' See `inst/example-analysis.R` in the source code for an example analysis.
+#'
+#' @param input_file
+#' (Character scalar)
+#' Path to the input file (should be wav format, with a .wav extension).
+#'
+#' @param local_decay_sec
+#' (Numeric)
+#' Value of the local decay parameter.
+#' If vectorised, then the function will output data for all combinations
+#' of this parameter with the global_decay_sec parameter.
+#'
+#' @param global_decay_sec
+#' (Numeric)
+#' Value of the global decay parameter.
+#' If vectorised, then the function will output data for all combinations
+#' of this parameter with the local_decay_parameter parameter.
+#'
+#' @param windows
+#' (List, optional)
+#' Optional specification of time windows to perform averaging over.
+#' Each element of the list corresponds to a time window,
+#' and should be a numeric vector of length 2, providing the window start and
+#' end time in seconds. Averaging is performed over all timepoints greater
+#' or equal to the window start and less than the window end.
+#'
+#' @param windowing_function
+#' (Function)
+#' This function is used to average within windows. By default the mean
+#' is used but other functions (e.g. the median) could be provided instead.
+#'
+#' @param keep_auditory_nerve
+#' (Boolean)
+#' The model can output auditory nerve simulation outputs, but these
+#' are omitted by default because they take up a lot of space.
+#'
+#' @param keep_periodicity_pitch
+#' (Boolean)
+#' The model can output auditory periodicity pitch outputs, but these
+#' are omitted by default because they take up a lot of space.
+#'
+#' @return
+#' Returns a list with several elements:
+#'
+#' \code{audio_length_sec} gives the length of the audio file in seconds.
+#'
+#' \code{num_channels} gives the number of channels of the input audio file.
+#'
+#' \code{sample_rate} gives the sample rate of the audio file.
+#'
+#' \code{local_global_comparison} is a tibble giving running correlations
+#' between local and global images over the time course of the audio files.
+#'
+#' \code{windowed_local_global_comparison} is a tibble giving windowed averages
+#' of these local-global images for the specified time windows.
+#'
+#' \code{keep_auditory_nerve} provides the auditory nerve images if requested.
+#'
+#' \code{periodicity_pitch} provides the periodicity_pitch images if requested.
+#'
 #' @export
-leman_2000 <- function(
+leman2000 <- function(
     input_file,  # should have a .wav extension
     local_decay_sec,
     global_decay_sec,
-    detail = 5,
     windows = NULL,
     windowing_function = mean,
     keep_auditory_nerve = FALSE,
     keep_periodicity_pitch = FALSE
 ) {
+  detail <- 5
+
   if (is.null(file)) {
     file <- tempfile(fileext =".json")
   }

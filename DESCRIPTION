@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Peter M. C. Harrison
 Maintainer: Peter M. C. Harrison <pmch2@cam.ac.ukt>
 Description: This package allows you to run the tonal contextuality model of Leman (2000) on arbitrary audio files. Under the hood it uses a Dockerised version of the IPEM Toolbox.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
