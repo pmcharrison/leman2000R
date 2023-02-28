@@ -1,0 +1,88 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# leman2000R
+
+*Author: Peter Harrison*
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This package allows you to run the tonal contextuality model of Leman (2000) on arbitrary audio files. 
+The original model was published in a 2000 Music Perception paper, and was shown
+to provide a psychoacoustic account of the Krumhansl-Kessler probe-tone data.
+Leman and colleagues released this model a while back as part of the 
+IPEM Toolbox, but this now only works on old versions of MATLAB.
+The present package wraps this old implementation in Docker to ensure
+easy cross-platform use into the forseeable future.
+
+
+## Installation
+
+You can install the development version of leman2000R from [GitHub](https://github.com/) with:
+
+``` r
+install.packages("remotes")
+remotes::install_github("pmcharrison/leman2000R")
+```
+
+You must also install [Docker](https://docker.io/) and launch it on your computer
+before using the package.
+
+Run `?leman2000R::leman2000` in your R console to get documentation for the main function,
+`leman2000`.
+
+## Example
+
+Note: this example also depends on the `tidyverse` package, which you can install using `install.packages("tidyverse")`.
+
+```{r example, echo = TRUE, dpi = 200}
+library(tidyverse)
+
+library(leman2000R)
+
+theme_set(theme_classic())
+
+res <- leman2000(
+  input_file = "inst/bVII_eGuitar_A.wav",
+  local_decay_sec = c(0.1, 0.5),
+  global_decay_sec = c(1, 2),
+  windows = list(c(3.5, 5.225), c(5.225, 6.885))
+)
+
+res$local_global_comparison |>
+  mutate(
+    global_decay_sec = paste("Global decay =", global_decay_sec),
+    local_decay_sec = paste("Local decay =", local_decay_sec),
+  ) |>
+  ggplot(aes(time_sec, running_correlation)) +
+  scale_x_continuous("Time (seconds)") +
+  scale_y_continuous("Local-global correlation") +
+  geom_line() +
+  facet_grid(global_decay_sec ~ local_decay_sec)
+
+
+res$windowed_local_global_comparison |>
+  mutate(
+    global_decay_sec = paste("Global decay =", global_decay_sec),
+    local_decay_sec = paste("Local decay =", local_decay_sec),
+    window_label = sprintf("%.2fs - %.2fs", window_start, window_end)
+  ) |>
+  ggplot(aes(window_label, local_global_correlation)) +
+  scale_x_discrete("Window") +
+  scale_y_continuous("Local-global correlation") +
+  geom_bar(stat = "identity") +
+  facet_grid(global_decay_sec ~ local_decay_sec)
+```
