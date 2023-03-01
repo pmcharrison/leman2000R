@@ -1,8 +1,9 @@
 library(testthat)
+library(leman2000R)
 
 test_that("Output formatting", {
-  res <- leman_2000(
-    input_file = system.file("hihat.wav", package = "leman2000", mustWork = TRUE),
+  res <- leman2000(
+    input_file = system.file("hihat.wav", package = "leman2000R", mustWork = TRUE),
     local_decay_sec = c(0.1, 0.2),
     global_decay_sec = c(1, 2),
     windows = list(

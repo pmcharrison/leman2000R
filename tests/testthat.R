@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(leman2000)
+library(leman2000R)
 
-test_check("leman2000")
+test_check("leman2000R")
