@@ -149,7 +149,15 @@ leman2000 <- function(
 }
 
 format_local_global_comparison <- function(local_global_comparison, audio_length_sec) {
-  local_global_comparison[[1]] |>
+  if (
+    is.list(local_global_comparison) &&
+    length(local_global_comparison) == 1 &&
+    is.data.frame(local_global_comparison[[1]])
+  ) {
+    local_global_comparison <- local_global_comparison[[1]]
+  }
+
+  local_global_comparison |>
     tibble::as_tibble() |>
     purrr::pmap_dfr(
       function(local_decay_sec, global_decay_sec, running_correlation) {

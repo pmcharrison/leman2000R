@@ -41,3 +41,13 @@ test_that("Output formatting", {
     ignore_attr = TRUE
   )
 })
+
+test_that("Works with singleton parameters", {
+  expect_no_error({
+    leman2000(
+      input_file = system.file("hihat.wav", package = "leman2000R", mustWork = TRUE),
+      local_decay_sec = 0.1,
+      global_decay_sec = 1
+    )
+  })
+})
